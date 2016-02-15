@@ -87,19 +87,19 @@ int main(int argc, char *argv[])
 	return 0;
 }
 
-static void push_event(int event, char *file, int ts)
+static void push_event(int event, char *file, long ts)
 {
    char szCmdFilename[256];
    
    switch(event) {
        case PLAYER_QUIT:
-           sprintf(szCmdFilename, "./ev_player_quit");
+           sprintf(szCmdFilename, "./ev_player_quit %s %ld", file, ts);
            break;
        case PLAYER_START:
-           sprintf(szCmdFilename, "./ev_player_start");
+           sprintf(szCmdFilename, "./ev_player_start %s %ld", file, ts);
            break;
        case PLAYER_TIMESTAMP:
-           sprintf(szCmdFilename, "./ev_player_timestamp");
+           sprintf(szCmdFilename, "./ev_player_timestamp %s %ld", file, ts);
            break;
        default:
            return;
@@ -312,7 +312,7 @@ void quit_callback(struct player *this)
 	if (now_next == NULL)
 		goto quit_callback_end;
 	if (now_next[0] != NULL && *now_next[0] == 0) {
-                push_event(PLAYER_QUIT, NULL, -1);
+                push_event(PLAYER_QUIT, "__nothing", -1);
 		LOG(0, "quit_callback: nothing to play\n");
 		status_log();
 	}
