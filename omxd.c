@@ -93,13 +93,13 @@ static void push_event(int event, long ts)
    
    switch(event) {
        case PLAYER_QUIT:
-           sprintf(szCmdFilename, "./ev_player_quit %d", ts);
+           sprintf(szCmdFilename, "./ev_player_quit");
            break;
        case PLAYER_START:
-           sprintf(szCmdFilename, "./ev_player_start %d", ts);
+           sprintf(szCmdFilename, "./ev_player_start");
            break;
        case PLAYER_TIMESTAMP:
-           sprintf(szCmdFilename, "./ev_player_timestamp %d", ts);
+           sprintf(szCmdFilename, "./ev_player_timestamp");
            break;
        default:
            return;
