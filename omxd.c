@@ -4,6 +4,8 @@
 #include <sys/stat.h>
 #include <sys/types.h>
 #include <string.h>
+#include <stdio.h>
+#include <stdlib.h>
 #include "omxd.h"
 
 struct player *now = NULL;
