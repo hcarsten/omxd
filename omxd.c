@@ -31,7 +31,7 @@ static int vol_mB = 0;
 #define PLAYER_QUIT 1
 #define PLAYER_START 2
 #define PLAYER_TIMESTAMP 3
-static void push_event(int event, char *file, long ts);
+static void push_event(int event, long ts);
 
 int main(int argc, char *argv[])
 {
@@ -87,19 +87,19 @@ int main(int argc, char *argv[])
 	return 0;
 }
 
-static void push_event(int event, char *file, long ts)
+static void push_event(int event, long ts)
 {
    char szCmdFilename[256];
    
    switch(event) {
        case PLAYER_QUIT:
-           sprintf(szCmdFilename, "./ev_player_quit %s %ld", file, ts);
+           sprintf(szCmdFilename, "./ev_player_quit %d", ts);
            break;
        case PLAYER_START:
-           sprintf(szCmdFilename, "./ev_player_start %s %ld", file, ts);
+           sprintf(szCmdFilename, "./ev_player_start %d", ts);
            break;
        case PLAYER_TIMESTAMP:
-           sprintf(szCmdFilename, "./ev_player_timestamp %s %ld", file, ts);
+           sprintf(szCmdFilename, "./ev_player_timestamp %d", ts);
            break;
        default:
            return;
@@ -252,7 +252,7 @@ static void player(char *cmd, char **files)
 	if (files[0] != NULL) {
 		stop_playback(&now);
 		if (*files[0] != 0) {
-                        push_event(PLAYER_START, files[0], 0);
+                        push_event(PLAYER_START, 0);
 			LOG(0, "player: start %s\n", files[0]);
 			if (next != NULL &&
 			    strcmp(files[0], player_file(next)) == 0) {
@@ -310,22 +310,22 @@ void quit_callback(struct player *this)
 	}
 	char **now_next = next_hdmi_filter(m_list("n", NULL));
 	if (now_next == NULL)
-		goto quit_callback_end;
+            goto quit_callback_end;
 	if (now_next[0] != NULL && *now_next[0] == 0) {
-                push_event(PLAYER_QUIT, "__nothing", -1);
-		LOG(0, "quit_callback: nothing to play\n");
-		status_log();
+            push_event(PLAYER_QUIT, -1);
+            LOG(0, "quit_callback: nothing to play\n");
+            status_log();
 	}
 	if (now_next[0] != NULL && *now_next[0] && !now_started) {
-            push_event(PLAYER_QUIT, now_next[0], -1);	
+            push_event(PLAYER_QUIT, -2);	
             LOG(0, "quit_callback: start %s\n", now_next[0]);
-		now = player_new(now_next[0], get_output("n"), P_PLAYING);
-		status_log();
+            now = player_new(now_next[0], get_output("n"), P_PLAYING);
+            status_log();
 	}
 	if (now_next[1] != NULL && *now_next[1]) {
-                push_event(PLAYER_QUIT, now_next[1], -1);
-		LOG(1, "quit_callback: prime %s\n", now_next[1]);
-		next = player_new(now_next[1], get_output("n"), P_PAUSED);
+            push_event(PLAYER_QUIT, -3);
+            LOG(1, "quit_callback: prime %s\n", now_next[1]);
+            next = player_new(now_next[1], get_output("n"), P_PAUSED);
 	}
 quit_callback_end:
 	SPINLOCK_RELEASE
