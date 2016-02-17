@@ -105,8 +105,14 @@ to allow easier testing\.
  /var/log/omxlog	log file
  /var/log/omxstat	status log file
  /var/log/omxplayer\.log\.<pid>
- /etc/omxd\.conf	defines user to run omxplayer: user=foo
+ /etc/omxd/omxd\.conf	defines user to run omxplayer: user=foo
  /etc/init\.d/omxd	init script
+ Under /etc/omxd/events you can place files which are invoked in certain situations:
+ - player_start         when the video starts
+ - player_timestamp     regulary max. 10times per Second to give the current video timepoint
+ - player_quit          when a video had finished
+
+ (all these files are considered scripts or applications, so be sure to set the appropriate rights, aka executable by the user)
 .
 .fi
 .

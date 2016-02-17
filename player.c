@@ -278,7 +278,7 @@ static struct player *find_pid(pid_t pid)
 /* Drop root privileges before execing omxplayer */
 static void drop_priv(void)
 {
-	int cfg = open("/etc/omxd.conf", O_RDONLY);
+	int cfg = open("/etc/omxd/omxd.conf", O_RDONLY);
 	if (cfg < 0)
 		return;
 	char buffer[4096];

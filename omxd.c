@@ -93,13 +93,13 @@ static void push_event(int event, long ts)
    
    switch(event) {
        case PLAYER_QUIT:
-           sprintf(szCmdFilename, "./ev_player_quit");
+           sprintf(szCmdFilename, "/etc/omxd/events/player_quit");
            break;
        case PLAYER_START:
-           sprintf(szCmdFilename, "./ev_player_start");
+           sprintf(szCmdFilename, "/etc/omxd/events/player_start");
            break;
        case PLAYER_TIMESTAMP:
-           sprintf(szCmdFilename, "./ev_player_timestamp");
+           sprintf(szCmdFilename, "/etc/omxd/events/player_timestamp %ld", ts);
            break;
        default:
            return;
