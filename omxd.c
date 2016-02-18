@@ -245,7 +245,7 @@ static void player(char *cmd, char **files)
 		goto player_end;
 	}
 	if (strchr(OMX_CMDS, *cmd) != NULL && now != NULL ) {
-		if (*cmd == 'p')
+           	if (*cmd == 'p')
 			LOG(0, "player: play/pause\n")
 		else
 			LOG(0, "player: send %s\n", cmd)
