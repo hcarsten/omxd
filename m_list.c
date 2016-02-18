@@ -50,7 +50,6 @@ char **m_list(char *cmd, char *file)
 	if (cmd == NULL || strchr(LIST_CMDS, *cmd) == NULL)
 		return NULL;
         
-        LOG(1, "OPT_CMDS Command");
         if (*cmd == 'M') {
             LOG(1, "Store marker %s", file);
             strncpy(szMarker, file, 64);
