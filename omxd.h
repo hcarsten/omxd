@@ -6,10 +6,10 @@
 
 #define OMX_CMDS "frFRpkoms-+"
 #define VOL_CMDS "-+"
-#define LIST_CMDS "iaAIHJL.hjnNdDxXguleM"
+#define LIST_CMDS "iaAIHJL.hjnNdDxXgule"
 #define STOP_CMDS "P"
 #define CLIENT_CMDS "S"
-#define OPT_CMDS "O"
+#define OPT_CMDS "OM"
 
 /* From player.c */
 #include <unistd.h>
