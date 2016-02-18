@@ -51,7 +51,7 @@ char **m_list(char *cmd, char *file)
 		return NULL;
         
         if (*cmd == 'M') {
-            LOG(1, "Store marker %s", file);
+            // LOG(1, "Store marker %s", file);
             strncpy(szMarker, file, 64);
             return NULL;
         }

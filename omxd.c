@@ -32,7 +32,7 @@ static int vol_mB = 0;
 #define PLAYER_START 2
 #define PLAYER_TIMESTAMP 3
 static void push_event(int event, char* szFile, long ts);
-char szMarker[65];
+char szMarker[128];
 
 int main(int argc, char *argv[])
 {
