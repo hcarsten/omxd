@@ -33,9 +33,13 @@ int client(int argc, char *argv[])
 		return client_cmd(cmd, file);
 	if (strchr(OMX_CMDS LIST_CMDS STOP_CMDS OPT_CMDS, *cmd) == NULL)
 		return 11;
+        
+        LOG(1, "Command %s", cmd);
 	/* Pass omxplayer options */
 	if (strchr(OPT_CMDS, *cmd)) {
+            LOG(1, "OPT_CMDS Command");
             if (*cmd == '#') {
+                LOG(1, "Store marker %s %s", argv[2], file);
                 strncpy(szMarker, argv[2], 64);
                 return 0;
             } else {
