@@ -34,7 +34,7 @@ int wrapped(int i);
 int to_num(char *file);
 int di_random(void);
 
-extern static char* szMarker;
+extern char* szMarker;
 
 /*
  * Return a 2-element string array for tracks to play now and next:

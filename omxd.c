@@ -31,8 +31,8 @@ static int vol_mB = 0;
 #define PLAYER_QUIT 1
 #define PLAYER_START 2
 #define PLAYER_TIMESTAMP 3
-static void push_event(int event, long ts);
-static char szMarker[65];
+static void push_event(int event, char* szFile, long ts);
+char szMarker[65];
 
 int main(int argc, char *argv[])
 {
@@ -98,9 +98,9 @@ static void push_event(int event, char* szFile, long ts)
    char szCmdFilename[max_cmd_line+1];
    char szFilename[128+1];
    if (szFile != NULL) {
-       strncpy(szFilename, 128, szFile);
+       strncpy(szFilename, szFile, 128);
    } else {
-       strncpy(szFilename, 128, "no_file");
+       strncpy(szFilename, "no_file", 128);
    }
    // the args to place into the cmdline are :
    // - script to invoke
@@ -112,10 +112,10 @@ static void push_event(int event, char* szFile, long ts)
            snprintf(szCmdFilename, max_cmd_line, "/etc/omxd/events/player_quit %s %ld %s", szMarker, ts, szFilename);
            break;
        case PLAYER_START:
-           sprintf(szCmdFilename, max_cmd_line, "/etc/omxd/events/player_start %s %ld %s", szMarker, ts, szFilename);
+           snprintf(szCmdFilename, max_cmd_line, "/etc/omxd/events/player_start %s %ld %s", szMarker, ts, szFilename);
            break;
        case PLAYER_TIMESTAMP:
-           sprintf(szCmdFilename, max_cmd_line, "/etc/omxd/events/player_timestamp %s %ld %s", szMarker, ts, szFilename);
+           snprintf(szCmdFilename, max_cmd_line, "/etc/omxd/events/player_timestamp %s %ld %s", szMarker, ts, szFilename);
            break;
        default:
            return;
@@ -268,7 +268,7 @@ static void player(char *cmd, char **files)
 	if (files[0] != NULL) {
 		stop_playback(&now);
 		if (*files[0] != 0) {
-                        push_event(PLAYER_START, 0);
+                        push_event(PLAYER_START, files[0], 0);
 			LOG(0, "player: start %s\n", files[0]);
 			if (next != NULL &&
 			    strcmp(files[0], player_file(next)) == 0) {
@@ -328,18 +328,18 @@ void quit_callback(struct player *this)
 	if (now_next == NULL)
             goto quit_callback_end;
 	if (now_next[0] != NULL && *now_next[0] == 0) {
-            push_event(PLAYER_QUIT, -1);
+            push_event(PLAYER_QUIT, NULL, -1);
             LOG(0, "quit_callback: nothing to play\n");
             status_log();
 	}
 	if (now_next[0] != NULL && *now_next[0] && !now_started) {
-            push_event(PLAYER_QUIT, -2);	
+            push_event(PLAYER_QUIT, NULL, -2);	
             LOG(0, "quit_callback: start %s\n", now_next[0]);
             now = player_new(now_next[0], get_output("n"), P_PLAYING);
             status_log();
 	}
 	if (now_next[1] != NULL && *now_next[1]) {
-            push_event(PLAYER_QUIT, -3);
+            push_event(PLAYER_QUIT, NULL, -3);
             LOG(1, "quit_callback: prime %s\n", now_next[1]);
             next = player_new(now_next[1], get_output("n"), P_PAUSED);
 	}

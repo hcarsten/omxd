@@ -34,7 +34,11 @@ int client(int argc, char *argv[])
 		return 11;
 	/* Pass omxplayer options */
 	if (strchr(OPT_CMDS, *cmd)) {
-		return writeopts(cmd, argc, argv);
+            if (*cmd == '#') {
+                
+            } else {
+                return writeopts(cmd, argc, argv);
+            }
 	}
 	if (file == NULL)
 		return writecmd(cmd);
@@ -155,7 +159,7 @@ static void print_list(char *playing)
 	while (fgets(line, LINE_LENGTH, play)) {
 		if (playing != NULL && strstr(line, playing) == line)
 			printf("> ");
-		printf(line);
+		printf("%s", line);
 	}
 	fclose(play);
 }
