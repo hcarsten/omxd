@@ -38,7 +38,7 @@ int client(int argc, char *argv[])
 	if (strchr(OPT_CMDS, *cmd)) {
             if (*cmd == 'M') {
                 strncpy(szMarker, file, 64);
-                return NULL;
+                return 0;
             } else {
                 return writeopts(cmd, argc, argv);
             }
