@@ -231,6 +231,10 @@ static int parse(char *line)
 	}
 	if (cmd != NULL && *cmd == 'O')
 		player_add_opt(file);
+        
+        if (cmd != NULL && *cmd == 'M') {
+            strncpy(szMarker, file, 64);
+        }
 	return cmd != NULL ? *cmd : 0;
 }
 
