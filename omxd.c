@@ -32,9 +32,14 @@ static int vol_mB = 0;
 #define PLAYER_START 2
 #define PLAYER_TIMESTAMP 3
 static void push_event(int event, long ts);
+static char szMarker[65];
 
 int main(int argc, char *argv[])
 {
+        // just have the marker been initialized with 
+        // a default value
+        strcpy(szMarker, "default");
+        
 	/* Help for -h */
 	if (argc == 2 && strncmp(argv[1], "-h", 3) == 0) {
 		writestr(1,
@@ -87,19 +92,30 @@ int main(int argc, char *argv[])
 	return 0;
 }
 
-static void push_event(int event, long ts)
+#define max_cmd_line 512
+static void push_event(int event, char* szFile, long ts)
 {
-   char szCmdFilename[256];
-   
+   char szCmdFilename[max_cmd_line+1];
+   char szFilename[128+1];
+   if (szFile != NULL) {
+       strncpy(szFilename, 128, szFile);
+   } else {
+       strncpy(szFilename, 128, "no_file");
+   }
+   // the args to place into the cmdline are :
+   // - script to invoke
+   // - last marker
+   // - timestamp
+   // - file played
    switch(event) {
        case PLAYER_QUIT:
-           sprintf(szCmdFilename, "/etc/omxd/events/player_quit");
+           snprintf(szCmdFilename, max_cmd_line, "/etc/omxd/events/player_quit %s %ld %s", szMarker, ts, szFilename);
            break;
        case PLAYER_START:
-           sprintf(szCmdFilename, "/etc/omxd/events/player_start");
+           sprintf(szCmdFilename, max_cmd_line, "/etc/omxd/events/player_start %s %ld %s", szMarker, ts, szFilename);
            break;
        case PLAYER_TIMESTAMP:
-           sprintf(szCmdFilename, "/etc/omxd/events/player_timestamp %ld", ts);
+           sprintf(szCmdFilename, max_cmd_line, "/etc/omxd/events/player_timestamp %s %ld %s", szMarker, ts, szFilename);
            break;
        default:
            return;
