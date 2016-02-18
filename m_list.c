@@ -34,8 +34,6 @@ int wrapped(int i);
 int to_num(char *file);
 int di_random(void);
 
-extern char* szMarker;
-
 /*
  * Return a 2-element string array for tracks to play now and next:
  * - NULL: leave running players alone
@@ -50,11 +48,7 @@ char **m_list(char *cmd, char *file)
 	/* Special cases when there is nothing to do */
 	if (cmd == NULL || strchr(LIST_CMDS, *cmd) == NULL)
 		return NULL;
-        if (*cmd == '#') {
-            // the file here is in fact just a marker !
-            strncpy(szMarker, file, 64);
-            return NULL;
-        }
+        
 	if (strchr("IHJ", *cmd) != NULL) {
 		now_next[0] = file;
 		now_next[1] = NULL;

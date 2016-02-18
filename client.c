@@ -21,6 +21,7 @@ static int writeopts(char *cmd, int argc, char *argv[]);
 char file_opening[32];
 static int open_tout(char *file);
 static void open_tout_handler(int signal);
+extern char* szMarker;
 
 int client(int argc, char *argv[])
 {
@@ -35,7 +36,8 @@ int client(int argc, char *argv[])
 	/* Pass omxplayer options */
 	if (strchr(OPT_CMDS, *cmd)) {
             if (*cmd == '#') {
-                
+                strncpy(szMarker, argv[2], 64);
+                return 0;
             } else {
                 return writeopts(cmd, argc, argv);
             }
